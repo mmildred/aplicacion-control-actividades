@@ -1,0 +1,55 @@
+CREATE DATABASE ControlActividades;
+USE ControlActividades;
+
+-- Tabla USUARIOS
+CREATE TABLE USUARIOS (
+  idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  correo VARCHAR(100) NOT NULL,
+  contraseña VARCHAR(100) NOT NULL,
+  telefono INT NOT NULL
+);
+
+-- Tabla ROLES
+CREATE TABLE ROLES (
+  idRol INT AUTO_INCREMENT PRIMARY KEY,
+  nombreRol VARCHAR(50) NOT NULL
+);
+
+-- Tabla ESTATUS
+CREATE TABLE ESTATUS (
+  idEstatus INT AUTO_INCREMENT PRIMARY KEY,
+  nombreEstatus VARCHAR(50) NOT NULL
+);
+
+-- Tabla ACTIVIDADES
+CREATE TABLE ACTIVIDADES (
+  idActividad INT AUTO_INCREMENT PRIMARY KEY,
+  Nombre_Actividad VARCHAR(100) NOT NULL,
+  Descripción TEXT,
+  Lugar VARCHAR(200),
+  Encargado INT,
+  Participante INT,
+  Estatus INT,
+  Fecha_de_inicio DATE,
+  Fecha_de_fin DATE,
+  CONSTRAINT FK_Encargado FOREIGN KEY (Encargado) REFERENCES USUARIOS(idUsuario),
+  CONSTRAINT FK_Participante FOREIGN KEY (Participante) REFERENCES USUARIOS(idUsuario),
+  CONSTRAINT FK_Estatus FOREIGN KEY (Estatus) REFERENCES ESTATUS(idEstatus)
+);
+
+-- Tabla ENCARGADO
+CREATE TABLE ENCARGADO (
+  idActividad INT NOT NULL,
+  idUsuario INT NOT NULL,
+  CONSTRAINT FK_idAct_Encargado FOREIGN KEY (idActividad) REFERENCES ACTIVIDADES(idActividad),
+  CONSTRAINT FK_idUser_Encargado FOREIGN KEY (idUsuario) REFERENCES USUARIOS(idUsuario)
+);
+
+-- Tabla PARTICIPANTE
+CREATE TABLE PARTICIPANTE (
+  idActividad INT NOT NULL,
+  idUsuario INT NOT NULL,
+  CONSTRAINT FK_idAct_Participante FOREIGN KEY (idActividad) REFERENCES ACTIVIDADES(idActividad),
+  CONSTRAINT FK_idUser_Participante FOREIGN KEY (idUsuario) REFERENCES USUARIOS(idUsuario)
+);
